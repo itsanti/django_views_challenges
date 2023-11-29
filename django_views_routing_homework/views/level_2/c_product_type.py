@@ -37,7 +37,11 @@ PRODUCTS = [
 
 
 def get_products_view(request):
+    type_ = request.GET.get('type')
     products = []
-    # код писать тут
-
-    return JsonResponse(data=products, safe=False)
+    if type_ is None:
+        products = PRODUCTS
+    else:
+        products = list(filter(lambda product: product['type'] == type_, PRODUCTS))
+    result = {'count': len(products), 'products': products}
+    return JsonResponse(data=result, safe=False)
