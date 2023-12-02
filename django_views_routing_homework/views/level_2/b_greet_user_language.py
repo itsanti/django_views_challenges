@@ -16,12 +16,17 @@ from django.http import HttpResponse
 
 def greet_user_in_different_languages_view(request, name: str, language: str):
     titled_name = name.title()
+    headers = {
+        'Content-Language': 'en-US',
+    }
 
     if language == 'ru':
         response_content = f'Привет, {titled_name}'
+        headers['Content-Language'] = 'ru-RU'
     elif language == 'en':
         response_content = f'Hello, {titled_name}'
     else:
         response_content = f'👋, {titled_name}'
 
-    return HttpResponse(response_content)
+
+    return HttpResponse(response_content, headers=headers)
